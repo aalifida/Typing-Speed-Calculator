@@ -16,15 +16,21 @@ paragraphs = [
 def compare_strings(user_input, test_paragraph):
     mistakes = 0
     correct = 0
-    min_length = min(len(user_input), len(test_paragraph))
+    wrong_words = []
+    test_words = test_paragraph.split()
+    user_words = user_input.split()
+    
+    min_length = min(len(user_words), len(test_words))
+    
     for i in range(min_length):
-        if user_input[i] == test_paragraph[i]:
+        if user_words[i] == test_words[i]:
             correct += 1
         else:
             mistakes += 1
-
-    mistakes += abs(len(user_input) - len(test_paragraph))
-    return correct, mistakes
+            wrong_words.append((user_words[i], test_words[i]))
+    
+    mistakes += abs(len(user_words) - len(test_words))
+    return correct, mistakes, wrong_words
 
 print("************ TYPING SPEED CALCULATOR ************")
 testParagraph = r.choice(paragraphs)
@@ -37,12 +43,18 @@ userInput = input()
 total_time = t.time() - start_time
 
 words = len(userInput.split())
-correct, mistakes = compare_strings(userInput, testParagraph)
-
+correct, mistakes, wrong_words = compare_strings(userInput, testParagraph)
 wpm = (words / total_time) * 60
-accuracy = (correct / len(testParagraph)) * 100 if len(testParagraph) else 0
+accuracy = (correct / len(testParagraph.split())) * 100 if len(testParagraph.split()) else 0
 
 print(f"\nYou typed {words} words in {total_time:.2f} seconds.")
 print(f"Words per minute: {wpm:.2f}")
 print(f"Mistakes: {mistakes}")
 print(f"Accuracy: {accuracy:.2f}%")
+
+if wrong_words:
+    print("\nList of wrong words (your word -> correct word):")
+    for user_word, correct_word in wrong_words:
+        print(f"{user_word} -> {correct_word}")
+else:
+    print("\nNo mistakes, well done!")
