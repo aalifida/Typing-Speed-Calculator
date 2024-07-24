@@ -1,6 +1,3 @@
-import time as t
-import random as r
-
 paragraphs = [
     "In a distant land, a wise old man knew the secrets of the universe. People sought his counsel, finding answers in his riddles. A young traveler asked about life's meaning, and the old man shared a story of a river changing lives, teaching that life's meaning is in the journey and connections.",
     "The city bustled as the sun rose. Street vendors set up stalls, children played, and a musician's lively tune drew a crowd. Amid the chaos, a sense of community and shared purpose brought harmony to the intricate dance of daily life.",
@@ -12,49 +9,3 @@ paragraphs = [
     "A young scientist dedicated her life to understanding the universe's mysteries. Despite challenges, she remained passionate and determined. Gazing at the night sky through her telescope, she felt connected to the cosmos and found purpose in her quest for knowledge.",
     "In the desert, a nomadic tribe followed nature's rhythms, living in harmony with the land. Elders taught the young about survival and respect. Each evening, they shared stories by the campfire, finding freedom and belonging in the desert's timeless beauty."
 ]
-
-def compare_strings(user_input, test_paragraph):
-    mistakes = 0
-    correct = 0
-    wrong_words = []
-    test_words = test_paragraph.split()
-    user_words = user_input.split()
-    
-    min_length = min(len(user_words), len(test_words))
-    
-    for i in range(min_length):
-        if user_words[i] == test_words[i]:
-            correct += 1
-        else:
-            mistakes += 1
-            wrong_words.append((user_words[i], test_words[i]))
-    
-    mistakes += abs(len(user_words) - len(test_words))
-    return correct, mistakes, wrong_words
-
-print("************ TYPING SPEED CALCULATOR ************")
-testParagraph = r.choice(paragraphs)
-print("You have to type this paragraph:\n")
-print(testParagraph)
-input("\nPress Enter to start...")
-
-start_time = t.time()
-userInput = input()
-total_time = t.time() - start_time
-
-words = len(userInput.split())
-correct, mistakes, wrong_words = compare_strings(userInput, testParagraph)
-wpm = (words / total_time) * 60
-accuracy = (correct / len(testParagraph.split())) * 100 if len(testParagraph.split()) else 0
-
-print(f"\nYou typed {words} words in {total_time:.2f} seconds.")
-print(f"Words per minute: {wpm:.2f}")
-print(f"Mistakes: {mistakes}")
-print(f"Accuracy: {accuracy:.2f}%")
-
-if wrong_words:
-    print("\nList of wrong words (your word -> correct word):")
-    for user_word, correct_word in wrong_words:
-        print(f"{user_word} -> {correct_word}")
-else:
-    print("\nNo mistakes, well done!")
